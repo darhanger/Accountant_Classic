@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD004 MD033 -->
 <div align="center">
 
-# Accountant Classic 2.5.05 for 3.3.5a (WotLK)
+# Accountant Classic 2.5.06 for 3.3.5a (WotLK)
 
 ![Lua](https://img.shields.io/badge/Lua-2C2D72?style=flat-squaree&logo=lua&logoColor=white)
 [![Discord Server](https://img.shields.io/badge/Discord-7289DA?style=flat-squaree&logo=discord&logoColor=white)](https://discord.gg/xBFKJc6QRr)
