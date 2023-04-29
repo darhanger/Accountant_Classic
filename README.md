@@ -4,7 +4,7 @@
 # Accountant Classic 2.5.06 for 3.3.5a (WotLK)
 
 ![Lua](https://img.shields.io/badge/Lua-2C2D72?style=flat-squaree&logo=lua&logoColor=white)
-[![License](https://img.shields.io/github/license/darhanger/Accountant_Classic?style=flat-square)](https://github.com/darhanger/Accountant_Classic/releases) 
+[![License](https://img.shields.io/github/license/darhanger/Accountant_Classic?style=flat-square)](https://github.com/darhanger/Accountant_Classic/blob/master/LICENSE) 
 [![Last Release](https://img.shields.io/github/v/release/darhanger/Accountant_Classic?style=flat-square)](https://github.com/darhanger/Accountant_Classic)
 [![GitHub All Releases](https://img.shields.io/github/downloads/darhanger/Accountant_Classic/total?style=flat-square)](https://github.com/darhanger/Accountant_Classic/releases)
 [![Discord Server](https://img.shields.io/badge/Discord-7289DA?style=flat-squaree&logo=discord&logoColor=white)](https://discord.gg/xBFKJc6QRr)
