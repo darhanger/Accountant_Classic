@@ -1,7 +1,10 @@
---[[
-$Id: AccountantButton.lua 2019-10-17 11:10:52 DarhangeR $
-]]
-ACCOUNTANT_BUTTON_TOOLTIP = "Toggle Accountant";
+function AccountantButton_OnEnter(self)
+	GameTooltip:SetOwner(self, "ANCHOR_LEFT");
+	GameTooltip:SetText(ACCLOC_TITLE);
+	GameTooltipTextLeft1:SetTextColor(1, 1, 1);
+	GameTooltip:AddLine(ACCLOC_TIP);
+	GameTooltip:Show();
+end;
 
 function AccountantButton_OnClick()
 	if AccountantFrame:IsVisible() then
@@ -9,33 +12,32 @@ function AccountantButton_OnClick()
 	else
 		ShowUIPanel(AccountantFrame);
 	end
-	
-end
+end;
 
 function AccountantButton_Init()
-	if(Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].showbutton) then
+	if(Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].showbutton) then
 		AccountantButtonFrame:Show();
 	else
 		AccountantButtonFrame:Hide();
 	end
-end
+end;
 
 function AccountantButton_Toggle()
 	if(AccountantButtonFrame:IsVisible()) then
 		AccountantButtonFrame:Hide();
-		Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].showbutton = false;
+		Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].showbutton = false;
 	else
 		AccountantButtonFrame:Show();
-		Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].showbutton = true;
+		Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].showbutton = true;
 	end
-end
+end;
 
 function AccountantButton_UpdatePosition()
 	AccountantButtonFrame:SetPoint(
 		"TOPLEFT",
 		"Minimap",
 		"TOPLEFT",
-		55 - (75 * cos(Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].buttonpos)),
-		(75 * sin(Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].buttonpos)) - 55
+		55 - (75 * cos(Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].buttonpos)),
+		(75 * sin(Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].buttonpos)) - 55
 	);
-end
+end;

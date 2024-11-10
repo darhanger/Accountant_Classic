@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD004 MD033 -->
 <div align="center">
 
-# Accountant Classic 2.5.06 for 3.3.5a (WotLK)
+# Accountant Classic 2.6.0 for 3.3.5a (WotLK)
 
 ![Lua](https://img.shields.io/badge/Lua-2C2D72?style=flat-squaree&logo=lua&logoColor=white)
 [![License](https://img.shields.io/github/license/darhanger/Accountant_Classic?style=flat-square)](https://github.com/darhanger/Accountant_Classic/blob/master/LICENSE) 
@@ -20,6 +20,7 @@ Either click the minimap button, bind a key to accountant or use /acc to view yo
 + English
 + French
 + German
++ Korean
 + Traditional Chinese
 + Simplified Chinese
 + Russian

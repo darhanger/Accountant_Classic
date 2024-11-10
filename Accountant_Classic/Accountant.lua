@@ -1,33 +1,4 @@
-﻿--[[
-$Id: Accountant.lua 2019-10-17 11:10:52 DarhangeR $
-]]
---[[
- Accountant 
-    v2.1 - 2.3: 
-    By Sabaki (sabaki@gmail.com)
-        Updated by: Shadow
-      new codes by Shadow and Rophy
-  
-	Tracks you incoming / outgoing cash
-
-        Thanks To:
-	2006/6/18 Rophy: v2.2 Added gold shared by party
-
-	Thanks To:
-	Losimagic, Shrill, Fillet for testing
-	Atlas by Razark for the minimap icon code I lifted
-	Everyone who commented and voted for the mod on curse-gaming.com
-  Thiou for the French loc, Snj & JokerGermany for the German loc 
-  ---------------------------------------------------------------------
-   v 2.4:
-     Updated by: Arith
-   v 2.5:
-     Updated by: DarhangeR
-	 - Russian localization;
-	 - UI changing;
-]]
-
-Accountant_Version = GetAddOnMetadata("Accountant", "Version");
+﻿Accountant_Version = GetAddOnMetadata("Accountant", "Version");
 Accountant_Data = nil;
 Accountant_SaveData = nil;
 Accountant_Disabled = false;
@@ -50,16 +21,16 @@ function Accountant_RegisterEvents(self)
 
 	self:RegisterEvent("QUEST_COMPLETE");
 	self:RegisterEvent("QUEST_FINISHED");
-	
+
 	self:RegisterEvent("LOOT_OPENED");
 	self:RegisterEvent("LOOT_CLOSED");
-	
+
 	self:RegisterEvent("TAXIMAP_OPENED");
 	self:RegisterEvent("TAXIMAP_CLOSED");
 
 	self:RegisterEvent("TRADE_SHOW");
 	self:RegisterEvent("TRADE_CLOSE");
-	
+
 	self:RegisterEvent("MAIL_SHOW");
 	self:RegisterEvent("MAIL_CLOSED");
 
@@ -78,6 +49,7 @@ function Accountant_RegisterEvents(self)
 end
 
 function Accountant_SetLabels(self)
+	-- if current tab is All Chars tab
 	if Accountant_CurrentTab == 5 then
 		AccountantFrameSource:SetText(ACCLOC_CHAR);
 		AccountantFrameIn:SetText(ACCLOC_MONEY);
@@ -89,42 +61,45 @@ function Accountant_SetLabels(self)
 		AccountantFrameTotalOutValue:SetText("");
 		AccountantFrameTotalFlowValue:SetText("");
 		for i = 1, 15, 1 do
-			getglobal("AccountantFrameRow"..i.."Title"):SetText("");
-			getglobal("AccountantFrameRow"..i.."In"):SetText("");
-			getglobal("AccountantFrameRow"..i.."Out"):SetText("");
+			_G["AccountantFrameRow"..i.."Title"]:SetText("");
+			_G["AccountantFrameRow"..i.."Title"]:SetPoint("TOPLEFT", 3, -2);
+			_G["AccountantFrameRow"..i.."In"]:SetText("");
+			_G["AccountantFrameRow"..i.."Out"]:SetText("");
 		end
 		AccountantFrameResetButton:Hide();
 		return;
-	end
-	AccountantFrameResetButton:Show();
+	else
+		AccountantFrameResetButton:Show();
 
-	AccountantFrameSource:SetText(ACCLOC_SOURCE);
-	AccountantFrameIn:SetText(ACCLOC_IN);
-	AccountantFrameOut:SetText(ACCLOC_OUT);
-	AccountantFrameTotalIn:SetText(ACCLOC_TOT_IN..":");
-	AccountantFrameTotalOut:SetText(ACCLOC_TOT_OUT..":");
-	AccountantFrameTotalFlow:SetText(ACCLOC_NET..":");
+		AccountantFrameSource:SetText(ACCLOC_SOURCE);
+		AccountantFrameIn:SetText(ACCLOC_IN);
+		AccountantFrameOut:SetText(ACCLOC_OUT);
+		AccountantFrameTotalIn:SetText(ACCLOC_TOT_IN..":");
+		AccountantFrameTotalOut:SetText(ACCLOC_TOT_OUT..":");
+		AccountantFrameTotalFlow:SetText(ACCLOC_NET..":");
 
-	-- Row Labels (auto generate)
-	InPos = 1
-	for key,value in pairs(Accountant_Data) do
-		Accountant_Data[key].InPos = InPos;
-		getglobal("AccountantFrameRow"..InPos.."Title"):SetText(Accountant_Data[key].Title);
-		InPos = InPos + 1;
-	end
+		-- Row Labels (auto generate)
+		InPos = 1
+		for key,value in pairs(Accountant_Data) do
+			Accountant_Data[key].InPos = InPos;
+			_G["AccountantFrameRow"..InPos.."Title"]:SetText(Accountant_Data[key].Title);
+			_G["AccountantFrameRow"..InPos.."Title"]:SetPoint("TOPLEFT", 3, -2);
+			InPos = InPos + 1;
+		end
 
-	-- Set the header
-	local name = this:GetName();
-	local header = getglobal(name.."TitleText");
-	if ( header ) then 
-		header:SetText(ACCLOC_TITLE);
+		-- Set the header
+		local name = AccountantFrame:GetName();
+		local header = _G[name.."TitleText"];
+		if ( header ) then
+			header:SetText(ACCLOC_TITLE);
+		end
 	end
 end
 
-function Accountant_OnLoad(self)	
+function Accountant_OnLoad(self)
 
 	Accountant_Player = UnitName("player");
-	Accountant_Server = GetCVar("realmName");
+	Accountant_Server = GetRealmName();
 
 	-- Setup
 	Accountant_LoadData();
@@ -179,22 +154,45 @@ function Accountant_OnLoad(self)
 	PanelTemplates_SetNumTabs(AccountantFrame, 5);
 	PanelTemplates_SetTab(AccountantFrame, AccountantFrameTab1);
 	PanelTemplates_UpdateTabs(AccountantFrame);
-	
+
 	ACC_Print(ACCLOC_TITLE.." "..ACCLOC_LOADED);
+
+	--Make an LDB object
+	LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Accountant_Classic", {
+		type = "launcher",
+		text = ACCLOC_TITLE,
+		OnClick = function(_, msg)
+			if msg == "LeftButton" then
+				AccountantButton_OnClick();
+			elseif msg == "RightButton" then
+				AccountantOptions_Toggle();
+			end
+		end,
+		icon = "Interface\\AddOns\\Accountant_Classic\\Images\\AccountantButton-Up",
+		OnTooltipShow = function(tooltip)
+			if not tooltip or not tooltip.AddLine then return end
+			tooltip:AddLine("|cffffffff"..ACCLOC_TITLE)
+			tooltip:AddLine(ACCLOC_TIP)
+		end,
+	});
+
+	if ( TitanPanelButton_UpdateButton ) then
+		TitanPanelButton_UpdateButton("Accountant_Classic");
+	end
 end
 
 function Accountant_LoadData()
 	Accountant_Data = {};
-	Accountant_Data["LOOT"] = {Title = ACCLOC_LOOT};
-	Accountant_Data["MERCH"] = {Title = ACCLOC_MERCH};
-	Accountant_Data["QUEST"] = {Title = ACCLOC_QUEST};
-	Accountant_Data["TRADE"] = {Title = ACCLOC_TRADE};
-	Accountant_Data["MAIL"] = {Title = ACCLOC_MAIL};
-	Accountant_Data["AH"] = {Title = ACCLOC_AUC};
-	Accountant_Data["TRAIN"] = {Title = ACCLOC_TRAIN};
-	Accountant_Data["TAXI"] = {Title = ACCLOC_TAXI};
-	Accountant_Data["REPAIRS"] = {Title = ACCLOC_REPAIR};
-	Accountant_Data["OTHER"] = {Title = ACCLOC_OTHER};
+	Accountant_Data["TRAIN"] = 	{Title = ACCLOC_TRAIN};
+	Accountant_Data["TAXI"] = 	{Title = ACCLOC_TAXI};
+	Accountant_Data["TRADE"] = 	{Title = ACCLOC_TRADE};
+	Accountant_Data["AH"] = 	{Title = ACCLOC_AUC};
+	Accountant_Data["MERCH"] = 	{Title = ACCLOC_MERCH};
+	Accountant_Data["REPAIRS"] = 	{Title = ACCLOC_REPAIR};
+	Accountant_Data["MAIL"] = 	{Title = ACCLOC_MAIL};
+	Accountant_Data["QUEST"] = 	{Title = ACCLOC_QUEST};
+	Accountant_Data["LOOT"] = 	{Title = ACCLOC_LOOT};
+	Accountant_Data["OTHER"] = 	{Title = ACCLOC_OTHER};
 
 	for key,value in pairs(Accountant_Data) do
 		for modekey,mode in pairs(Accountant_LogModes) do
@@ -265,6 +263,33 @@ function Accountant_LoadData()
 		cdate = string.sub(cdate,0,8);
 		Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] = cdate;
 	end
+
+	--Duplicate below from OnShow as the day and week data seems need to be initialize here, when the addon is loaded for a fresh day/week.
+	-- Check to see if the day has rolled over
+	cdate = date();
+	cdate = string.sub(cdate,0,8);
+	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] ~= cdate then
+		-- Its a new day! clear out the day tab
+		for mode,value in pairs(Accountant_Data) do
+			Accountant_Data[mode]["Day"].In = 0;
+			Accountant_SaveData[Accountant_Server][Accountant_Player]["data"][mode]["Day"].In = 0;
+			Accountant_Data[mode]["Day"].Out = 0;
+			Accountant_SaveData[Accountant_Server][Accountant_Player]["data"][mode]["Day"].Out = 0;
+		end
+	end
+	Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["date"] = cdate;
+	-- Check to see if the week has rolled over
+	if Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["dateweek"] ~= Accountant_WeekStart() then
+		-- Its a new week! clear out the week tab
+		for mode,value in pairs(Accountant_Data) do
+			Accountant_Data[mode]["Week"].In = 0;
+			Accountant_SaveData[Accountant_Server][Accountant_Player]["data"][mode]["Week"].In = 0;
+			Accountant_Data[mode]["Week"].Out = 0;
+			Accountant_SaveData[Accountant_Server][Accountant_Player]["data"][mode]["Week"].Out = 0;
+		end
+	end
+	Accountant_SaveData[Accountant_Server][Accountant_Player]["options"]["dateweek"] = Accountant_WeekStart();
+	
 end
 
 function Accountant_Slash(msg)
@@ -291,7 +316,8 @@ function Accountant_Slash(msg)
 	end
 end
 
-function Accountant_OnEvent(event)
+function Accountant_OnEvent(self, event, ...)
+	local arg1, arg2 = ...;
 	local oldmode = Accountant_Mode;
 	if ( event == "UNIT_NAME_UPDATE" and arg1 == "player" ) or (event=="PLAYER_ENTERING_WORLD") then
 		if (Accountant_GotName) then
@@ -301,7 +327,7 @@ function Accountant_OnEvent(event)
 		if ( playerName ~= UNKNOWNBEING and playerName ~= UNKNOWNOBJECT and playerName ~= nil ) then
 			Accountant_GotName = true;
 			Accountant_OnLoad();
-			AccountantOptions_OnLoad();
+			--AccountantOptions_OnLoad();
 			AccountantButton_Init();
 			AccountantButton_UpdatePosition();
 		end
@@ -348,38 +374,51 @@ function Accountant_OnEvent(event)
 		Accountant_Mode = "";
 	elseif event == "PLAYER_MONEY" then
 		Accountant_UpdateLog();
-
 -- This event is supposed to be fired before PLAYER_MONEY.
-	elseif event == "CHAT_MSG_MONEY" then	
-		Accountant_OnShareMoney(event, arg1)
-
+	elseif event == "CHAT_MSG_MONEY" then
+		Accountant_OnShareMoney(arg1);
 	end
 	if Accountant_Verbose and Accountant_Mode ~= oldmode then ACC_Print("Accountant mode changed to '"..Accountant_Mode.."'"); end
 end
 
-function Accountant_OnShareMoney(event, arg1) 
-              local gold, silver, copper, money, oldMode 
+function Accountant_OnShareMoney(arg1)
+	local gold, silver, copper, money, oldMode;
 
--- Parse the message for money gained. 
-              _, _, gold = string.find(arg1, "(%d+)" .. GOLD_AMOUNT) 
-              _, _, silver = string.find(arg1, "(%d+)" .. SILVER_AMOUNT) 
-              _, _, copper = string.find(arg1, "(%d+)" .. COPPER_AMOUNT) 
-              if gold then gold = tonumber(gold) else gold = 0 end 
-              if silver then silver = tonumber(silver) else silver = 0 end 
-              if copper then copper = tonumber(copper) else copper = 0 end 
-              money = copper + silver * 100 + gold * 10000
+-- Parse the message for money gained.
+	_, _, gold = string.find(arg1, "(%d+)" .. GOLD_AMOUNT)
+	_, _, silver = string.find(arg1, "(%d+)" .. SILVER_AMOUNT)
+	_, _, copper = string.find(arg1, "(%d+)" .. COPPER_AMOUNT)
+	if (gold) then
+		gold = tonumber(gold);
+	else
+		gold = 0;
+	end
+	if (silver) then
+		silver = tonumber(silver);
+	else
+		silver = 0;
+	end
+	if (copper) then
+		copper = tonumber(copper);
+	else
+		copper = 0;
+	end
 
-              oldMode = Accountant_Mode 
-              if not Accountant_LastMoney then Accountant_LastMoney = 0 end 
+	money = copper + silver * 100 + gold * 10000
 
--- This will force a money update with calculated amount. 
-              Accountant_LastMoney = Accountant_LastMoney - money 
-              Accountant_Mode = "LOOT" 
-              Accountant_UpdateLog() 
-              Accountant_Mode = oldMode 
+	oldMode = Accountant_Mode;
+	if (not Accountant_LastMoney) then
+		Accountant_LastMoney = 0;
+	end
 
--- This will suppress the incoming PLAYER_MONEY event. 
-              Accountant_LastMoney = Accountant_LastMoney + money
+-- This will force a money update with calculated amount.
+	Accountant_LastMoney = Accountant_LastMoney - money;
+	Accountant_Mode = "LOOT";
+	Accountant_UpdateLog();
+	Accountant_Mode = oldMode;
+
+-- This will suppress the incoming PLAYER_MONEY event.
+	Accountant_LastMoney = Accountant_LastMoney + money;
 
 end
 
@@ -390,6 +429,7 @@ function Accountant_NiceCash(amount)
 	local outstr = "";
 	local gold = 0;
 	local silver = 0;
+	local cent = 0;
 
 	if amount >= agold then
 		gold = math.floor(amount / agold);
@@ -398,11 +438,18 @@ function Accountant_NiceCash(amount)
 	amount = amount - (gold * agold);
 	if amount >= asilver then
 		silver = math.floor(amount / asilver);
+		if silver < 10 then
+			silver = " "..silver;
+		end
 		outstr = outstr .. "|cFFCCCCCC" .. silver .. ACCLOC_SILVER;
 	end
 	amount = amount - (silver * asilver);
 	if amount > 0 then
-		outstr = outstr .. "|cFFFF6600" .. amount .. ACCLOC_CENT;
+		cent = amount;
+		if cent < 10 then
+			cent = " "..cent;
+		end
+		outstr = outstr .. "|cFFFF6600" .. cent .. ACCLOC_CENT;
 	end
 	return outstr;
 end
@@ -453,10 +500,10 @@ function Accountant_OnShow()
 		TotalOut = 0;
 		mode = Accountant_LogModes[Accountant_CurrentTab];
 		for key,value in pairs(Accountant_Data) do
-			row = getglobal("AccountantFrameRow" ..Accountant_Data[key].InPos.."In");
+			row = _G["AccountantFrameRow"..Accountant_Data[key].InPos.."In"];
 			row:SetText(Accountant_NiceCash(Accountant_Data[key][mode].In));
 			TotalIn = TotalIn + Accountant_Data[key][mode].In;
-			row = getglobal("AccountantFrameRow" ..Accountant_Data[key].InPos.."Out");
+			row = _G["AccountantFrameRow"..Accountant_Data[key].InPos.."Out"];
 			TotalOut = TotalOut + Accountant_Data[key][mode].Out;
 			row:SetText(Accountant_NiceCash(Accountant_Data[key][mode].Out));
 		end
@@ -482,18 +529,19 @@ function Accountant_OnShow()
 		local alltotal = 0;
 		local i=1;
 		for char,charvalue in pairs(Accountant_SaveData[Accountant_Server]) do
-			getglobal("AccountantFrameRow" ..i.."Title"):SetText(char);
+			_G["AccountantFrameRow" ..i.."Title"]:SetText(char);
+			--_G["AccountantFrameRow" ..i.."Title"]:SetPoint("TOPLEFT", 20, -2);
 			if Accountant_SaveData[Accountant_Server][char]["options"]["totalcash"] ~= nil then
-				getglobal("AccountantFrameRow" ..i.."In"):SetText(Accountant_NiceCash(Accountant_SaveData[Accountant_Server][char]["options"]["totalcash"]));
+				_G["AccountantFrameRow" ..i.."In"]:SetText(Accountant_NiceCash(Accountant_SaveData[Accountant_Server][char]["options"]["totalcash"]));
 				alltotal = alltotal + Accountant_SaveData[Accountant_Server][char]["options"]["totalcash"];
-				getglobal("AccountantFrameRow" ..i.."Out"):SetText(Accountant_SaveData[Accountant_Server][char]["options"]["date"]);
+				_G["AccountantFrameRow" ..i.."Out"]:SetText(Accountant_SaveData[Accountant_Server][char]["options"]["date"]);
 			else
-				getglobal("AccountantFrameRow" ..i.."In"):SetText("Unknown");
+				_G["AccountantFrameRow" ..i.."In"]:SetText("Unknown");
 			end
 			i=i+1;
 		end
 		AccountantFrameTotalInValue:SetText(Accountant_NiceCash(alltotal));
-	
+
 	end
 	SetPortraitTexture(AccountantFramePortrait, "player");
 
@@ -536,7 +584,7 @@ function Accountant_ResetData()
 	else
 
 	end
-	
+
 	StaticPopupDialogs["ACCOUNTANT_RESET"].text = ACCLOC_RESET_CONF.."\""..type.."\"?";
 	local dialog = StaticPopup_Show("ACCOUNTANT_RESET","weeee");
 end
@@ -561,7 +609,7 @@ function Accountant_UpdateLog()
 	Accountant_LastMoney = Accountant_CurrentMoney;
 	if diff == 0 or diff == nil then
 		return;
-	end		
+	end
 
 	local mode = Accountant_Mode;
 	if mode == "" then mode = "OTHER"; end

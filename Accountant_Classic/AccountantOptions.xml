@@ -1,6 +1,3 @@
-<!--
-$Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
--->
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 	<Script file="AccountantOptions.lua"/>
 	<Frame name="AccountantOptionsFrame" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true" parent="UIParent" enableKeyboard="true">
@@ -25,7 +22,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 			<Layer level="ARTWORK">
 				<Texture name="AccountantOptionsFrameHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
 					<Size>
-						<AbsDimension x="256" y="64"/>
+						<AbsDimension x="300" y="64"/>
 					</Size>
 					<Anchors>
 						<Anchor point="TOP">
@@ -74,13 +71,13 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						getglobal(this:GetName().."High"):SetText();
-						getglobal(this:GetName().."Low"):SetText();
+						_G[self:GetName().."High"]:SetText();
+						_G[self:GetName().."Low"]:SetText();
 						AccountantSliderButtonPos:SetMinMaxValues(0,360);
 						AccountantSliderButtonPos:SetValueStep(1);
 					</OnLoad>
 					<OnValueChanged>
-						Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].buttonpos = AccountantSliderButtonPos:GetValue();
+						Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].buttonpos = AccountantSliderButtonPos:GetValue();
 						AccountantButton_UpdatePosition();
 					</OnValueChanged>
 				</Scripts>
@@ -128,11 +125,14 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 			</Button>
 		</Frames>
 		<Scripts>
+			<OnLoad>
+				AccountantOptions_OnLoad(self);
+			</OnLoad>
 			<OnShow>
-				AccountantOptions_OnShow();
+				AccountantOptions_OnShow(self);
 			</OnShow>
 			<OnHide>
-				AccountantOptions_OnHide();
+				AccountantOptions_OnHide(self);
 			</OnHide>
 		</Scripts>
 	</Frame>

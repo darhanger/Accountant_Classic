@@ -1,6 +1,3 @@
-<!--
-$Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
--->
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 	<Script file="AccountantButton.lua"/>
 	<Frame name="AccountantButtonFrame" parent="Minimap" enableMouse="true" hidden="false" frameStrata="LOW">
@@ -26,13 +23,21 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 						</Offset>
 					</Anchor>
 				</Anchors>
-				<NormalTexture file="Interface\AddOns\Accountant_Classic\AccountantButton-Up"/>
-				<PushedTexture file="Interface\AddOns\Accountant_Classic\AccountantButton-Down"/>
+				<NormalTexture file="Interface\AddOns\Accountant_Classic\Images\AccountantButton-Up"/>
+				<PushedTexture file="Interface\AddOns\Accountant_Classic\Images\AccountantButton-Down"/>
 				<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
 				<Scripts>
+					<OnEnter>
+						AccountantButton_OnEnter(self);
+					</OnEnter>
 					<OnClick>
 						AccountantButton_OnClick();
 					</OnClick>
+					<OnMouseUp>
+						if (button == "RightButton") then
+							AccountantOptions_Toggle();
+						end
+					</OnMouseUp>
 				</Scripts>
 			</Button>
 		</Frames>

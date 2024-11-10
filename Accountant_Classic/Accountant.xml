@@ -1,14 +1,5 @@
-<!--
-$Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
--->
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	<Script file="localization.en.lua"/>
-	<Script file="localization.tw.lua"/>
-	<Script file="localization.cn.lua"/>
-	<Script file="localization.de.lua"/>
-	<Script file="localization.fr.lua"/>
-	<Script file="localization.ru.lua"/>
 	<Script file="Accountant.lua"/>
 
 	<!-- Item Row Template -->
@@ -19,10 +10,10 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 			</OnClick>
 		</Scripts>
 	</Button>
-
+	<!-- Text rows -->
 	<Frame name="AccountantRowTemplate" virtual="true">
 		<Size>
-			<AbsDimension x="337" y="19"/>
+			<AbsDimension x="482" y="19"/>
 		</Size>
 		<Layers>
 			<Layer level="BACKGROUND">
@@ -35,11 +26,20 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 						</Anchor>
 					</Anchors>
 				</FontString>
+				<Button name="$parentDelete" inherits="UIPanelButtonTemplate">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="3" y="-4"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Button>
 				<FontString name="$parentIn" inherits="GameFontHighlightSmall">
 					<Anchors>
 						<Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="250" y="-4"/>
+								<AbsDimension x="323" y="-4"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -48,7 +48,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					<Anchors>
 						<Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="337" y="-4"/>
+								<AbsDimension x="480" y="-4"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -62,7 +62,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 		<Frames>
 			<Frame name="$parentMoney"  inherits="SmallMoneyFrameTemplate">
 				<Size>
-					<AbsDimension x="115" y="25"/>
+					<AbsDimension x="100" y="25"/>
 				</Size>
 				<Anchors>
 					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
@@ -95,50 +95,50 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 	<!-- Main Window -->
 	<Frame name="AccountantFrame" toplevel="true" enableMouse="true" frameStrata="HIGH" movable="true" parent="UIParent" hidden="true">
 		<Size>
-			<AbsDimension x="445" y="514"/>
+			<AbsDimension x="512" y="512"/>
 		</Size>
 		<Anchors>
 			<Anchor point="TOPLEFT">
 				<Offset>
-					<AbsDimension x="415" y="-104"/>
+					<AbsDimension x="400" y="-104"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 		<Layers>
 			<Layer level="BACKGROUND">
 				<Texture name="AccountantFramePortrait">
-                    <Size>
-                        <AbsDimension x="67" y="62"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="TOPLEFT">
-                            <Offset>
-                                <AbsDimension x="7" y="-6"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                </Texture>
+					<Size>
+						<AbsDimension x="60" y="60"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="7" y="-6"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
 			</Layer>
 			<Layer level="ARTWORK">
-				<Texture name="$parentTopLeft" file="Interface\AddOns\Accountant_Classic\AccountantFrame-TopLeft">
+				<Texture name="$parentTopLeft" file="Interface\AddOns\Accountant_Classic\Images\AccountantFrame-TopLeft">
 					<Size>
-						<AbsDimension x="285" y="256"/>
+						<AbsDimension x="256" y="256"/>
 					</Size>
 					<Anchors>
 						<Anchor point="TOPLEFT"/>
 					</Anchors>
 				</Texture>
-				<Texture name="$parentTopRight" file="Interface\AddOns\Accountant_Classic\AccountantFrame-TopRight">
+				<Texture name="$parentTopRight" file="Interface\AddOns\Accountant_Classic\Images\AccountantFrame-TopRight">
 					<Size>
-						<AbsDimension x="160" y="256"/>
+						<AbsDimension x="256" y="256"/>
 					</Size>
 					<Anchors>
 						<Anchor point="TOPRIGHT"/>
 					</Anchors>
 				</Texture>
-				<Texture name="$parentBotLeft" file="Interface\AddOns\Accountant_Classic\AccountantFrame-BotLeft">
+				<Texture name="$parentBotLeft" file="Interface\AddOns\Accountant_Classic\Images\AccountantFrame-BotLeft">
 					<Size>
-						<AbsDimension x="285" y="256"/>
+						<AbsDimension x="256" y="256"/>
 					</Size>
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -148,9 +148,9 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<Texture name="$parentBotRight" file="Interface\AddOns\Accountant_Classic\AccountantFrame-BotRight">
+				<Texture name="$parentBotRight" file="Interface\AddOns\Accountant_Classic\Images\AccountantFrame-BotRight">
 					<Size>
-						<AbsDimension x="160" y="256"/>
+						<AbsDimension x="256" y="256"/>
 					</Size>
 					<Anchors>
 						<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
@@ -176,7 +176,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="25" y="-93"/>
+								<AbsDimension x="24" y="-93"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -185,7 +185,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="230" y="-93"/>
+								<AbsDimension x="265" y="-93"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -194,7 +194,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="337" y="-93"/>
+								<AbsDimension x="422" y="-93"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -203,16 +203,16 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="83" y="-39"/>
+								<AbsDimension x="75" y="-39"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
 				<FontString name="$parentTotalInValue" inherits="GameFontHighlightSmall">
 					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="193" y="-39"/>
+								<AbsDimension x="350" y="-39"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -221,16 +221,16 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="83" y="-55"/>
+								<AbsDimension x="75" y="-55"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
 				<FontString name="$parentTotalOutValue" inherits="GameFontHighlightSmall">
 					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="193" y="-55"/>
+								<AbsDimension x="350" y="-55"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -239,16 +239,16 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					<Anchors>
 						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="83" y="-71"/>
+								<AbsDimension x="75" y="-71"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>
 				<FontString name="$parentTotalFlowValue" inherits="GameFontHighlightSmall">
 					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="193" y="-71"/>
+								<AbsDimension x="350" y="-71"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -257,7 +257,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOPLEFT">
 							<Offset>
-								<AbsDimension x="345" y="-39"/>
+								<AbsDimension x="450" y="-39"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -273,7 +273,6 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 				</FontString>
 			</Layer>
 		</Layers>
-
 		<Frames>
 			<Frame name="$parentRow1" inherits="AccountantRowTemplate">
 				<Anchors>
@@ -410,41 +409,23 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					</Anchor>
 				</Anchors>
 			</Frame>
-
 			<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
 				<Anchors>
 					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT">
 						<Offset>
-							<AbsDimension x="-42" y="-8"/>
+							<AbsDimension x="4" y="-8"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
-			</Button>
-			<Button name="$parentExitButton" inherits="UIPanelButtonTemplate" text="ACCLOC_EXIT">
-				<Size>
-					<AbsDimension x="95" y="22"/>
-				</Size>
-				<Anchors>
-					<Anchor point="BOTTOMRIGHT" relativeTo="$parentBotRight" relativePoint="BOTTOMRIGHT">
-						<Offset>
-							<AbsDimension x="-55" y="81"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						HideUIPanel(self:GetParent());
-					</OnClick>
-				</Scripts>
 			</Button>
 			<Button name="$parentOptionsButton" inherits="UIPanelButtonTemplate" text="ACCLOC_OPTBUT">
 				<Size>
-					<AbsDimension x="94" y="21"/>
+					<AbsDimension x="80" y="22"/>
 				</Size>
 				<Anchors>
-					<Anchor point="TOPRIGHT" relativeTo="$parentExitButton" relativePoint="TOPLEFT">
+					<Anchor point="TOPRIGHT" relativeTo="$parentCloseButton" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="-5" y="0"/>
+							<AbsDimension x="6" y="-4"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -454,14 +435,31 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="$parentResetButton" inherits="UIPanelButtonTemplate" text="ACCLOC_RESET">
+			<Button name="$parentExitButton" inherits="UIPanelButtonTemplate" text="ACCLOC_EXIT">
 				<Size>
-					<AbsDimension x="67" y="22"/>
+					<AbsDimension x="77" y="21"/>
 				</Size>
 				<Anchors>
-					<Anchor point="TOP" relativeTo="$parent" relativePoint="TOPLEFT">
+					<Anchor point="BOTTOMRIGHT" relativeTo="$parentBotRight" relativePoint="BOTTOMRIGHT">
 						<Offset>
-							<AbsDimension x="345" y="-62"/>
+							<AbsDimension x="-10" y="81"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						HideUIPanel(self:GetParent());
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parentResetButton" inherits="UIPanelButtonTemplate" text="ACCLOC_RESET">
+				<Size>
+					<AbsDimension x="80" y="22"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parentExitButton" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -475,7 +473,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 				<Anchors>
 					<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension x="180" y="100"/>
+							<AbsDimension x="266" y="98"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -484,7 +482,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 				<Anchors>
 					<Anchor point="BOTTOMLEFT">
 						<Offset>
-							<AbsDimension x="15" y="46"/>
+							<AbsDimension x="15" y="44"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -520,7 +518,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 				<Anchors>
 					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
 						<Offset>
-							<AbsDimension x="-47" y="46"/>
+							<AbsDimension x="0" y="44"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -528,12 +526,12 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				-- Make Frame Moveable.
+				<!-- Make Frame Moveable.-->
 				tinsert(UISpecialFrames, "AccountantFrame");
 				UIPanelWindows["AccountantFrame"] = { area = "left", pushable = 11 };
 				self:RegisterForDrag("LeftButton");
 
-				-- Setup
+				<!-- Setup -->
 				Accountant_RegisterEvents(self);
 			</OnLoad>
 			<OnShow>
@@ -543,7 +541,7 @@ $Id: Accountant.xml 2019-10-17 11:10:52 DarhangeR $
 				Accountant_OnHide(self);
 			</OnHide>
 			<OnEvent>
-				Accountant_OnEvent(event);
+				Accountant_OnEvent(self, event, ...);
 			</OnEvent>
 			<OnDragStart>
 				self:StartMoving();

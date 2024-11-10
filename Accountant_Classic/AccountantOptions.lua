@@ -1,19 +1,22 @@
---[[
-$Id: AccountantOptions.lua 2019-10-17 11:10:52 DarhangeR $
-]]
-ACCOUNTANT_OPTIONS_TITLE = "Accountant Options";
+ACCOUNTANT_OPTIONS_TITLE = ACCLOC_OPTS;
 
 function AccountantOptions_Toggle()
-	if(AccountantOptionsFrame:IsVisible()) then
-		AccountantOptionsFrame:Hide();
+	if(InterfaceOptionsFrame:IsVisible()) then
+		InterfaceOptionsFrame:Hide();
 	else
-		AccountantOptionsFrame:Show();
+		InterfaceOptionsFrame_OpenToCategory("Accountant Classic");
+		InterfaceOptionsFrame_OpenToCategory("Accountant Classic");
 	end
-end
+end;
 
-function AccountantOptions_OnLoad()
+function AccountantOptions_OnLoad(panel)
 	UIPanelWindows['AccountantOptionsFrame'] = {area = 'center', pushable = 0};
-end
+	panel.name = ACCLOC_TITLE;
+	InterfaceOptions_AddCategory(panel);
+	if (LibStub:GetLibrary("LibAboutPanel", true)) then
+		LibStub("LibAboutPanel").new(ACCLOC_TITLE, "Accountant_Classic");
+	end
+end;
 
 
 function AccountantOptions_OnShow()
@@ -21,17 +24,17 @@ function AccountantOptions_OnShow()
 	AccountantSliderButtonPosText:SetText(ACCLOC_BUTPOS);
 	AccountantOptionsFrameWeekLabel:SetText(ACCLOC_STARTWEEK);
 
-	AccountantOptionsFrameToggleButton:SetChecked(Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].showbutton);
-	AccountantSliderButtonPos:SetValue(Accountant_SaveData[GetCVar("realmName")][UnitName("player")]["options"].buttonpos);
+	AccountantOptionsFrameToggleButton:SetChecked(Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].showbutton);
+	AccountantSliderButtonPos:SetValue(Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].buttonpos);
 	UIDropDownMenu_Initialize(AccountantOptionsFrameWeek, AccountantOptionsFrameWeek_Init);
 	UIDropDownMenu_SetSelectedID(AccountantOptionsFrameWeek, Accountant_SaveData[Accountant_Server][Accountant_Player]["options"].weekstart);
-end
+end;
 
-function AccountantOptions_OnHide()
-	if(MYADDONS_ACTIVE_OPTIONSFRAME == this) then
+function AccountantOptions_OnHide(self)
+	if(MYADDONS_ACTIVE_OPTIONSFRAME == self) then
 		ShowUIPanel(myAddOnsFrame);
 	end
-end
+end;
 
 function AccountantOptionsFrameWeek_Init()
 	local info;
@@ -42,9 +45,9 @@ function AccountantOptionsFrameWeek_Init()
 		info.func = AccountantOptionsFrameWeek_OnClick;
 		UIDropDownMenu_AddButton(info);
 	end
-end
+end;
 
-function AccountantOptionsFrameWeek_OnClick()
-	UIDropDownMenu_SetSelectedID(AccountantOptionsFrameWeek, this:GetID());
-	Accountant_SaveData[Accountant_Server][Accountant_Player]["options"].weekstart = this:GetID();
-end
+function AccountantOptionsFrameWeek_OnClick(self)
+	UIDropDownMenu_SetSelectedID(AccountantOptionsFrameWeek, self:GetID());
+	Accountant_SaveData[Accountant_Server][Accountant_Player]["options"].weekstart = self:GetID();
+end;
