@@ -1,7 +1,7 @@
 ﻿if (GetLocale() == "deDE") then
 -- Header
 ACCLOC_TITLE		= "Accountant Classic";
-ACCLOC_TIP			= "Linke Maustaste drücken, um Accountant Classic zu öffnen.\nRechte Maustaste drücken, um die Accountant Classic Optionen anzuzeigen.";
+ACCLOC_TIP			= "|cffb8c3d0Linksklick:|r |cffffd200Bericht öffnen|r\n|cffb8c3d0Rechtsklick:|r |cffffd200Einstellungen öffnen|r";
 ACCLOC_TOT_IN		= "Einnahmen";
 ACCLOC_TOT_OUT		= "Ausgaben";
 ACCLOC_NET			= "Netto Ertrag / Verlust";
@@ -25,6 +25,8 @@ ACCLOC_MAIL			= "Post";
 ACCLOC_TRAIN		= "Ausbildungskosten";
 ACCLOC_TAXI			= "Reisekosten";
 ACCLOC_OTHER		= "Unbekannt";
+ACCLOC_GUILD		= "Gildenbank";
+ACCLOC_BARBER		= "Friseur";
 ACCLOC_REPAIR		= "Reparaturkosten";
 ACCLOC_AUC			= "Auktionshaus";
 
@@ -37,12 +39,17 @@ ACCLOC_EXIT			= "Exit";
 ACCLOC_SESS			= "Sitzung";
 ACCLOC_DAY			= "Tag";
 ACCLOC_WEEK			= "Woche";
+ACCLOC_MONTH			= "Monat";
+ACCLOC_YEAR			= "Jahr";
 ACCLOC_TOTAL		= "Gesamt";
 ACCLOC_CHARS		= "Alle Chars";
 
 -- Options
 ACCLOC_OPTS			= "Accountant Optionen";
+ACCLOC_SETTINGS		= "Einstellungen";
 ACCLOC_MINIBUT		= "Zeige Minimap Button";
+ACCLOC_MONEYINFO	= "Geldanzeige zeigen";
+ACCLOC_MONEYICONS	= "Münzsymbole statt Text";
 ACCLOC_BUTPOS		= "Minimap Button Position";
 ACCLOC_STARTWEEK	= "Beginn der Woche";
 ACCLOC_WD_SUN		= "Sonntag";

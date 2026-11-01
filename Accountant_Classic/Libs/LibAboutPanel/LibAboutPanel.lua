@@ -1,4 +1,4 @@
-﻿local lib, oldminor = LibStub:NewLibrary("LibAboutPanel", 3)
+﻿local lib, oldminor = LibStub:NewLibrary("LibAboutPanel", 4)
 if not lib then return end
 
 local L = {
@@ -9,7 +9,7 @@ local L = {
 	["Donate"] = "Donate",
 	["Email"] = "Email",
 	["License"] = "License",
-	["Localizations"] = "Languages",
+	["Localizations"] = "Translations",
 	["Version"] = "Version",
 	["Website"] = "Website",
 	["Click and press Ctrl-C to copy"] = "Click and press Ctrl-C to copy.",
@@ -19,6 +19,7 @@ local L = {
 local GAME_LOCALE = GetLocale()
 if GAME_LOCALE == "frFR" then
 	L["About"] = "à propos de"
+	L["Localizations"] = "Traductions"
 elseif GAME_LOCALE == "deDE" then
 	L["About"] = "Über"
 	L["Author"] = "Autor"
@@ -27,7 +28,7 @@ elseif GAME_LOCALE == "deDE" then
 	L["Donate"] = "Spenden"
 	L["Email"] = "E-Mail"
 	L["License"] = "Lizenz"
-	L["Localizations"] = "Sprachen"
+	L["Localizations"] = "Übersetzungen"
 	L["Version"] = "Version"
 	L["Website"] = "Webseite"
 	L["Click and press Ctrl-C to copy"] = "Klicken und Strg-C drücken zum kopieren."
@@ -47,20 +48,24 @@ elseif GAME_LOCALE == "esES" or GAME_LOCALE == "esMX" then
 	L["on"] = "de"
 elseif GAME_LOCALE == "koKR" then
 	L["About"] = "대하여"
+	L["Localizations"] = "번역"
 	L["Click and press Ctrl-C to copy"] = "클릭 후 Ctrl-C 복사"
 elseif GAME_LOCALE == "ruRU" then
 	L["About"] = "Об аддоне"
+	L["Localizations"] = "Переводы"
 elseif GAME_LOCALE == "zhCN" then
 	L["About"] = "关于"
+	L["Localizations"] = "翻译"
 	L["Click and press Ctrl-C to copy"] = "点击并 Ctrl-C 复制"
 elseif GAME_LOCALE == "zhTW" then
 	L["About"] = "關於"
+	L["Localizations"] = "翻譯"
 	L["Click and press Ctrl-C to copy"] = "左鍵點擊並按下 Ctrl-C 以複製字串"
 end
 
-function lib.new(parent, addonname)
+function lib.new(parent, addonname, categoryName)
 	local frame = CreateFrame("Frame", nil, UIParent)
-	frame.name, frame.parent, frame.addonname = not parent and gsub(addonname," ","") or L["About"], parent, gsub(addonname," ","") -- Remove spaces from addonname because GetMetadata doesn't like that
+	frame.name, frame.parent, frame.addonname = parent and L["About"] or (categoryName or gsub(addonname," ","")), parent, gsub(addonname," ","") -- Remove spaces from addonname because GetMetadata doesn't like that
 	frame:Hide()
 	frame:SetScript("OnShow", lib.OnShow)
 	InterfaceOptions_AddCategory(frame)
@@ -113,6 +118,19 @@ end
 
 
 local fields = {"Version", "Author", "X-Category", "X-License", "X-Email", "Email", "eMail", "X-Website", "X-Credits", "X-Localizations", "X-Donate"}
+local localizationNames = {
+	enUS = "English", frFR = "French", deDE = "German",
+	zhCN = "Simplified Chinese", zhTW = "Traditional Chinese", koKR = "Korean", ruRU = "Russian",
+}
+if GAME_LOCALE == "ruRU" then
+	localizationNames.enUS = "Английский"
+	localizationNames.frFR = "Французский"
+	localizationNames.deDE = "Немецкий"
+	localizationNames.zhCN = "Упрощённый китайский"
+	localizationNames.zhTW = "Традиционный китайский"
+	localizationNames.koKR = "Корейский"
+	localizationNames.ruRU = "Русский"
+end
 local haseditbox = {["X-Website"] = true, ["X-Email"] = true, ["X-Donate"] = true, ["Email"] = true, ["eMail"] = true}
 local fieldLabels = {["eMail"] = "Email"}
 
@@ -138,7 +156,7 @@ function lib.OnShow(frame)
 		frame.about_title = title
 	end
 	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetText(frame.parent and (frame.parent.." - " .. L["About"]) or frame.name)
+	title:SetText((frame.parent or frame.name) .. " - " .. L["About"])
 
 	if not frame.about_subtitle then
 		frame.about_subtitle = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
@@ -163,22 +181,32 @@ function lib.OnShow(frame)
 				title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 				frame[field .. "_title"] = title
 			end
-			title:SetWidth(80)
-			if not anchor then
+			if field == "X-Localizations" then
+				title:SetWidth(300)
+				title:SetPoint("TOPLEFT", anchor or subtitle, "BOTTOMLEFT", anchor and 6 or 4, -24)
+				title:SetJustifyH("LEFT")
+			elseif not anchor then
+				title:SetWidth(80)
 				title:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", -2, -12)
+				title:SetJustifyH("RIGHT")
 			else
+				title:SetWidth(80)
 				title:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -10)
+				title:SetJustifyH("RIGHT")
 			end
-			title:SetJustifyH("RIGHT")
 			title:SetJustifyV("TOP")
-			title:SetText(L[fieldLabels[field] or field:gsub("X%-", "")])
+			title:SetText(L[fieldLabels[field] or field:gsub("X%-", "")] .. (field == "X-Localizations" and ":" or ""))
 
 			local detail = frame[field .. "_detail"]
 			if not detail then
 				detail = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 				frame[field .. "_detail"] = detail
 			end
-			detail:SetPoint("TOPLEFT", title, "TOPRIGHT", 4, 0)
+			if field == "X-Localizations" then
+				detail:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
+			else
+				detail:SetPoint("TOPLEFT", title, "TOPRIGHT", 4, 0)
+			end
 			detail:SetPoint("RIGHT", frame, -16, 0)
 			detail:SetJustifyH("LEFT")
 			detail:SetJustifyV("TOP")
@@ -210,24 +238,34 @@ function lib.OnShow(frame)
 				end
 			elseif field == "X-Website" then
 				detail:SetText((haseditbox[field] and "|cff77ccff" or "") .. gsub(val, "^https?://", ""))
+			elseif field == "X-Localizations" then
+				local languages = {}
+				for code in string.gmatch(val, "[^,%s]+") do
+					languages[#languages + 1] = (localizationNames[code] or code) .. " (" .. code .. ")"
+				end
+				detail:SetText(table.concat(languages, "\n"))
 			else
 				detail:SetText((haseditbox[field] and "|cff77ccff" or "") .. val)
 			end
 
-			local lineheight = math.min(detail:GetStringHeight(), 32)
-			title:SetHeight(lineheight)
+			local lineheight = field == "X-Localizations" and detail:GetStringHeight() or math.min(detail:GetStringHeight(), 32)
+			title:SetHeight(field == "X-Localizations" and 16 or lineheight)
 			detail:SetHeight(lineheight)
 
 			if haseditbox[field] then
-				local button = CreateFrame("Button", nil, frame)
-				button:SetAllPoints(detail)
+				local button = frame[field .. "_button"]
+				if not button then
+					button = CreateFrame("Button", nil, frame)
+					frame[field .. "_button"] = button
+					button:SetAllPoints(detail)
+					button:SetScript("OnClick", lib.OpenEditbox)
+					button:SetScript("OnEnter", ShowTooltip)
+					button:SetScript("OnLeave", HideTooltip)
+				end
 				button.val = val
-				button:SetScript("OnClick", lib.OpenEditbox)
-				button:SetScript("OnEnter", ShowTooltip)
-				button:SetScript("OnLeave", HideTooltip)
 			end
 
-			anchor = title
+			anchor = field == "X-Localizations" and detail or title
 		end
 	end
 end

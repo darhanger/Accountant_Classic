@@ -505,9 +505,27 @@
 					</Anchor>
 				</Anchors>
 			</Button>
-			<Button name="$parentTab4" inherits="AccountantTabTemplate" id="4" text="Total">
+			<Button name="$parentTab6" inherits="AccountantTabTemplate" id="6" text="Month">
 				<Anchors>
 					<Anchor point="LEFT" relativeTo="$parentTab3" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="-15" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentTab7" inherits="AccountantTabTemplate" id="7" text="Year">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab6" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="-15" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentTab4" inherits="AccountantTabTemplate" id="4" text="Total">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentTab7" relativePoint="RIGHT">
 						<Offset>
 							<AbsDimension x="-15" y="0"/>
 						</Offset>
@@ -528,7 +546,6 @@
 			<OnLoad>
 				<!-- Make Frame Moveable.-->
 				tinsert(UISpecialFrames, "AccountantFrame");
-				UIPanelWindows["AccountantFrame"] = { area = "left", pushable = 11 };
 				self:RegisterForDrag("LeftButton");
 
 				<!-- Setup -->
@@ -548,9 +565,65 @@
 			</OnDragStart>
 			<OnDragStop>
 				self:StopMovingOrSizing();
+				Accountant_FrameSavePosition();
 			</OnDragStop>
 			<OnMouseUp>
 				self:StopMovingOrSizing();
+				Accountant_FrameSavePosition();
+			</OnMouseUp>
+		</Scripts>
+	</Frame>
+	<Frame name="AccountantMoneyInfoFrame" parent="UIParent" frameStrata="MEDIUM" movable="true" enableMouse="true" hidden="true">
+		<Size>
+			<AbsDimension x="180" y="28"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT" relativeTo="UIParent" relativePoint="TOPLEFT">
+				<Offset>
+					<AbsDimension x="10" y="-80"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="4" right="4" top="4" bottom="4"/>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="16"/>
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="12"/>
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" inherits="GameFontNormal" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton");
+				self:SetClampedToScreen(true);
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+				Accountant_MoneyInfoSavePosition();
+			</OnDragStop>
+			<OnEnter>
+				Accountant_MoneyInfoOnEnter(self);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+			<OnMouseUp>
+				if button == "RightButton" then AccountantButton_OnClick(); end
 			</OnMouseUp>
 		</Scripts>
 	</Frame>

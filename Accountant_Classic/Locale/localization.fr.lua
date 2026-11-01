@@ -1,7 +1,7 @@
 ﻿if (GetLocale() == "frFR") then
 -- Header
 ACCLOC_TITLE		= "Accountant Classic";
-ACCLOC_TIP			= "Clic-Gauche pour ouvrir Accountant Classic.\nClic-Droit pour les options d'Accountant Classic.";
+ACCLOC_TIP			= "|cffb8c3d0Clic gauche :|r |cffffd200ouvrir le rapport|r\n|cffb8c3d0Clic droit :|r |cffffd200ouvrir les options|r";
 ACCLOC_TOT_IN		= "Rentrées Totales";
 ACCLOC_TOT_OUT		= "Dépenses Totales";
 ACCLOC_NET			= "Bénéfices/Pertes Nettes";
@@ -25,6 +25,8 @@ ACCLOC_MAIL			= "Courrier";
 ACCLOC_TRAIN		= "Coût Entraînement";
 ACCLOC_TAXI			= "Prix du Taxi";
 ACCLOC_OTHER		= "Inconnu";
+ACCLOC_GUILD		= "Banque de guilde";
+ACCLOC_BARBER		= "Salon de coiffure";
 ACCLOC_REPAIR		= "Coût Réparation";
 ACCLOC_AUC			= "Hotel des Ventes";
 
@@ -37,12 +39,17 @@ ACCLOC_EXIT			= "Exit";
 ACCLOC_SESS			= "Session";
 ACCLOC_DAY			= "Jour";
 ACCLOC_WEEK			= "Semaine";
+ACCLOC_MONTH			= "Mois";
+ACCLOC_YEAR			= "Année";
 ACCLOC_TOTAL		= "Total";
 ACCLOC_CHARS		= "Persos";
 
 -- Options
 ACCLOC_OPTS			= "Accountant Options";
+ACCLOC_SETTINGS		= "Paramètres";
 ACCLOC_MINIBUT		= "Afficher le Bouton de la Minimap";
+ACCLOC_MONEYINFO	= "Afficher le solde actuel";
+ACCLOC_MONEYICONS	= "Utiliser les icônes de pièces";
 ACCLOC_BUTPOS		= "Position du bouton de la Minimap";
 ACCLOC_STARTWEEK	= "Début de Semaine";
 ACCLOC_WD_SUN		= "Dimanche";

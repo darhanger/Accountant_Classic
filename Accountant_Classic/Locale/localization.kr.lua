@@ -1,7 +1,7 @@
 ﻿if (GetLocale() == "koKR") then
 -- Header
 ACCLOC_TITLE		= "가계부";
-ACCLOC_TIP			= "Left-Click to open Accountant Classic.\nRight-Click for Accountant Classic options.";
+ACCLOC_TIP			= "|cffb8c3d0왼쪽 클릭:|r |cffffd200보고서 열기|r\n|cffb8c3d0오른쪽 클릭:|r |cffffd200설정 열기|r";
 ACCLOC_TOT_IN		= "총수입";
 ACCLOC_TOT_OUT		= "총지출";
 ACCLOC_NET			= "순이익 / 손해";
@@ -25,6 +25,8 @@ ACCLOC_MAIL			= "우편";
 ACCLOC_TRAIN		= "기술 습득";
 ACCLOC_TAXI			= "비행 요금";
 ACCLOC_OTHER		= "알수없음";
+ACCLOC_GUILD		= "길드 은행";
+ACCLOC_BARBER		= "미용실";
 ACCLOC_REPAIR		= "수리 비용";
 ACCLOC_AUC			= "경매장";
 
@@ -37,12 +39,17 @@ ACCLOC_EXIT			= "끝";
 ACCLOC_SESS			= "현재";
 ACCLOC_DAY			= "일";
 ACCLOC_WEEK			= "주";
+ACCLOC_MONTH			= "월";
+ACCLOC_YEAR			= "년";
 ACCLOC_TOTAL		= "합계";
 ACCLOC_CHARS		= "모든 합계";
 
 -- Options
 ACCLOC_OPTS			= "Accountant 옵션";
+ACCLOC_SETTINGS		= "설정";
 ACCLOC_MINIBUT		= "미니맵버튼";
+ACCLOC_MONEYINFO	= "현재 골드 표시";
+ACCLOC_MONEYICONS	= "동전 아이콘 사용";
 ACCLOC_BUTPOS		= "미니맵 버튼 위치";
 ACCLOC_STARTWEEK	= "시작";
 ACCLOC_WD_SUN		= "일요일";

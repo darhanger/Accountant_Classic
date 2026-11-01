@@ -1,9 +1,8 @@
-function AccountantButton_OnEnter(self)
-	GameTooltip:SetOwner(self, "ANCHOR_LEFT");
-	GameTooltip:SetText(ACCLOC_TITLE);
-	GameTooltipTextLeft1:SetTextColor(1, 1, 1);
-	GameTooltip:AddLine(ACCLOC_TIP);
-	GameTooltip:Show();
+function AccountantButton_AddTooltip(tooltip)
+	if tooltip.ClearLines then tooltip:ClearLines(); end
+	tooltip:AddLine("|cffffffff"..ACCLOC_TITLE.."|r  "..(Accountant_Version or ""));
+	tooltip:AddLine(" ");
+	tooltip:AddLine(ACCLOC_TIP, 1, 1, 1, true);
 end;
 
 function AccountantButton_OnClick()
@@ -15,29 +14,29 @@ function AccountantButton_OnClick()
 end;
 
 function AccountantButton_Init()
-	if(Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].showbutton) then
-		AccountantButtonFrame:Show();
+	local options = Accountant_SaveData[Accountant_Server][Accountant_Player].options;
+	if not options.minimap then
+		options.minimap = {hide = not options.showbutton, minimapPos = 225};
+	end
+	local icon = LibStub("LibDBIcon-1.0");
+	if not icon:IsRegistered("Accountant_Classic") then
+		local broker = LibStub("LibDataBroker-1.1"):GetDataObjectByName("Accountant_Classic");
+		icon:Register("Accountant_Classic", broker, options.minimap);
 	else
-		AccountantButtonFrame:Hide();
+		icon:Refresh("Accountant_Classic", options.minimap);
 	end
 end;
 
 function AccountantButton_Toggle()
-	if(AccountantButtonFrame:IsVisible()) then
-		AccountantButtonFrame:Hide();
-		Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].showbutton = false;
+	local options = Accountant_SaveData[Accountant_Server][Accountant_Player].options;
+	local db = options.minimap;
+	local icon = LibStub("LibDBIcon-1.0");
+	if db.hide then
+		db.hide = false;
+		icon:Show("Accountant_Classic");
 	else
-		AccountantButtonFrame:Show();
-		Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].showbutton = true;
+		db.hide = true;
+		icon:Hide("Accountant_Classic");
 	end
-end;
-
-function AccountantButton_UpdatePosition()
-	AccountantButtonFrame:SetPoint(
-		"TOPLEFT",
-		"Minimap",
-		"TOPLEFT",
-		55 - (75 * cos(Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].buttonpos)),
-		(75 * sin(Accountant_SaveData[GetRealmName()][UnitName("player")]["options"].buttonpos)) - 55
-	);
+	options.showbutton = not db.hide;
 end;

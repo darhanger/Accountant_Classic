@@ -10,13 +10,13 @@
 ![WoW 3.3.5a](https://img.shields.io/badge/WoW-3.3.5a-C79C6E?style=flat-square)
 [![License](https://img.shields.io/github/license/darhanger/Accountant_Classic?style=flat-square)](https://github.com/darhanger/Accountant_Classic/blob/master/LICENSE)
 [![Last Release](https://img.shields.io/github/v/release/darhanger/Accountant_Classic?style=flat-square)](https://github.com/darhanger/Accountant_Classic/releases/latest)
-[![Release Downloads](https://img.shields.io/github/downloads/darhanger/Accountant_Classic/2.6.0/total?style=flat-square)](https://github.com/darhanger/Accountant_Classic/releases/tag/2.6.0)
+[![Release Downloads](https://img.shields.io/github/downloads/darhanger/Accountant_Classic/latest/total?style=flat-square)](https://github.com/darhanger/Accountant_Classic/releases/latest)
 [![All Downloads](https://img.shields.io/github/downloads/darhanger/Accountant_Classic/total?style=flat-square)](https://github.com/darhanger/Accountant_Classic/releases)
 [![Discord Server](https://img.shields.io/badge/Discord-7289DA?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/ZKFkvrzaU4)
 
 **Accountant Classic** is a lightweight economy tracker that records where your money comes from and where it goes.
 
-It provides separate income and expense statistics for the current session, day, week and the entire tracking period.
+It provides separate income and expense statistics for the current session, day, week, month, year and the entire tracking period.
 
 Designed for **World of Warcraft 3.3.5a**.
 
@@ -30,13 +30,16 @@ The addon provides:
 
 - automatic tracking of income and expenses;
 - separate incoming and outgoing totals for every category;
-- session, daily, weekly and lifetime statistics;
+- session, daily, weekly, monthly, yearly and lifetime statistics;
 - net profit or net loss calculation;
 - total current money for characters on the same realm;
-- automatic daily and weekly rollover;
+- automatic daily, weekly, monthly and yearly rollover;
 - configurable first day of the week;
 - reset controls for the selected report period;
-- a movable Blizzard-style report window;
+- a movable report window with automatic ElvUI styling when ElvUI is enabled;
+- matching ElvUI styling for the options and balance display, with the original look otherwise;
+- an optional movable display of your current money;
+- a choice between text and coin icons for money amounts;
 - a minimap launcher with adjustable position;
 - a configurable key binding;
 - LibDataBroker launcher support;
@@ -56,6 +59,8 @@ Money changes are divided into the following categories:
 | Merchants | Buying and selling items to vendors |
 | Repairs | Personal equipment repair costs |
 | Mail | Money sent or received through mail |
+| Guild Bank | Personal money deposited or withdrawn while the guild bank is open |
+| Barber Shop | Personal money spent while the barber shop is open |
 | Quests | Quest rewards and related transactions |
 | Loot | Money looted from creatures and shared loot |
 | Other | Transactions that cannot be assigned to another category |
@@ -64,7 +69,7 @@ Income and expenses are stored separately for each category.
 
 ## Report periods
 
-The main window contains five tabs:
+The main window contains seven tabs:
 
 ### Session
 
@@ -83,6 +88,16 @@ Daily values are reset automatically when the calendar day changes.
 Shows statistics for the current configured week.
 
 The first day of the week can be selected in the addon settings.
+
+### Month
+
+Shows income and expenses for the current calendar month.
+
+### Year
+
+Shows income and expenses for the current calendar year.
+
+Monthly and yearly totals start at zero when upgrading from a version that did not record them; older transactions have no dates from which to rebuild these periods.
 
 ### Total
 
@@ -110,6 +125,8 @@ The Accountant Classic window displays:
 
 The window can be moved by dragging it with the left mouse button.
 
+The optional money display shows the current balance, can be moved by dragging, and opens the report on right click. Its position is saved for the character. Hover over it to see today's income, expenses, and net profit or loss.
+
 ## Opening Accountant Classic
 
 The report window can be opened in several ways:
@@ -122,11 +139,13 @@ The report window can be opened in several ways:
 
 Right-clicking the minimap or LibDataBroker button opens the addon settings.
 
+The report window keeps its position after dragging, including across game sessions.
+
 ## Minimap button
 
 The minimap launcher can be enabled or disabled in the settings.
 
-Its position around the minimap can be changed with a slider and is saved separately for the character.
+Drag the button with the left mouse button to move it around the minimap. Its position is saved separately for the character.
 
 Button actions:
 
@@ -143,8 +162,9 @@ Accountant Classic adds a category to the standard Blizzard Interface Options.
 Available settings include:
 
 - show or hide the minimap button;
-- change the minimap button position;
-- select the first day of the week.
+- select the first day of the week;
+- show or hide the current money display;
+- display money with text or coin icons.
 
 All options are saved between game sessions.
 
@@ -171,6 +191,7 @@ For example:
 - reset only the current session;
 - reset the current day;
 - reset the current week;
+- reset the current month or year;
 - reset all recorded totals.
 
 A confirmation dialog is displayed before data is deleted.
@@ -198,7 +219,6 @@ World of Warcraft
             ├── Accountant.lua
             ├── Accountant.xml
             ├── AccountantButton.lua
-            ├── AccountantButton.xml
             ├── AccountantOptions.lua
             ├── AccountantOptions.xml
             ├── Bindings.xml
@@ -264,6 +284,7 @@ Required libraries are bundled with the addon:
 - CallbackHandler-1.0
 - LibAboutPanel
 - LibDataBroker-1.1
+- LibDBIcon-1.0 (GPL-2.0-or-later)
 
 They do not need to be installed separately.
 
@@ -343,7 +364,7 @@ You can help by:
 
 ## License
 
-This project is distributed under the terms of the [MIT License](https://github.com/darhanger/Accountant_Classic/blob/master/LICENSE).
+The addon code is distributed under the [MIT License](LICENSE). The bundled LibDBIcon-1.0 library is licensed under [GPL-2.0-or-later](Accountant_Classic/Libs/LibDBIcon-1.0/COPYING).
 
 ---
 

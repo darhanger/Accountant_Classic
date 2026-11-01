@@ -12,17 +12,18 @@
 ## Notes-zhCN: |cff00CC33追踪每个角色的所有收入与支出状况，并可显示当日小计、当周小计、以及自有记录起的总计。并可显示所有角色的总金额。|r
 ## Notes-zhTW: |cff00CC33追蹤每個角色的所有收入與支出狀況，並可顯示當日小計、當週小計、以及自有記錄起的總計，並可顯示所有角色的總金額。|r
 ## SavedVariables: Accountant_SaveData,Accountant_Options
-## Version: |cffff00002.6.0|r
+## OptionalDeps: ElvUI
+## Version: |cffff00002.7.0|r
 ## Author: |cffa330c9DarhangeR|r
-## X-License: MIT
+## X-License: MIT (addon); GPL-2.0-or-later (LibDBIcon-1.0)
 ## X-Website: https://github.com/darhanger/Accountant_Classic
 ## X-Category: Information
-## X-Date: 2024-11-10
-## X-Category: Information
+## X-Date: 2026-11-01
 ## X-Localizations: enUS, frFR, deDE, zhCN, zhTW, koKR, ruRU
 
 Libs\Libs.xml
 Locale\Locales.xml
 Accountant.xml
-AccountantButton.xml
+AccountantButton.lua
 AccountantOptions.xml
+AccountantSkin.lua

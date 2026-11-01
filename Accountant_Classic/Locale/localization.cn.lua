@@ -1,7 +1,7 @@
 ﻿if (GetLocale() == "zhCN") then
 -- Header
 ACCLOC_TITLE		= "Accountant Classic";
-ACCLOC_TIP			= "单击打开 Accountant Classic\n右键点击打开设置";
+ACCLOC_TIP			= "|cffb8c3d0左键：|r |cffffd200打开报表|r\n|cffb8c3d0右键：|r |cffffd200打开设置|r";
 ACCLOC_TOT_IN		= "总收入";
 ACCLOC_TOT_OUT		= "总支出";
 ACCLOC_NET			= "净收益/亏损";
@@ -25,6 +25,8 @@ ACCLOC_MAIL			= "邮寄";
 ACCLOC_TRAIN		= "训练费用";
 ACCLOC_TAXI			= "飞行花费";
 ACCLOC_OTHER		= "未知";
+ACCLOC_GUILD		= "公会银行";
+ACCLOC_BARBER		= "理发店";
 ACCLOC_REPAIR		= "修理装备";
 ACCLOC_AUC			= "拍卖场";
 
@@ -37,12 +39,17 @@ ACCLOC_EXIT			= "离开";
 ACCLOC_SESS			= "本次";
 ACCLOC_DAY			= "今天";
 ACCLOC_WEEK			= "本周";
+ACCLOC_MONTH			= "本月";
+ACCLOC_YEAR			= "本年";
 ACCLOC_TOTAL		= "总计";
 ACCLOC_CHARS		= "所有角色";
 
 -- Options
 ACCLOC_OPTS			= "Accountant 选项";
+ACCLOC_SETTINGS		= "设置";
 ACCLOC_MINIBUT		= "显示小地图按键";
+ACCLOC_MONEYINFO	= "显示当前金币";
+ACCLOC_MONEYICONS	= "使用金币图标";
 ACCLOC_BUTPOS		= "小地图按键位置";
 ACCLOC_STARTWEEK	= "一周的开始日";
 ACCLOC_WD_SUN		= "星期日";

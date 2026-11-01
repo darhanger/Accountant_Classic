@@ -1,6 +1,6 @@
 ﻿-- Header
 ACCLOC_TITLE		= "Accountant Classic";
-ACCLOC_TIP			= "Left-Click to open Accountant Classic.\nRight-Click for Accountant Classic options.";
+ACCLOC_TIP			= "|cffb8c3d0Left click:|r |cffffd200open report|r\n|cffb8c3d0Right click:|r |cffffd200open settings|r";
 ACCLOC_TOT_IN		= "Total Incomings";
 ACCLOC_TOT_OUT		= "Total Outgoings";
 ACCLOC_NET			= "Net Profit / Loss";
@@ -24,6 +24,8 @@ ACCLOC_MAIL			= "Mail";
 ACCLOC_TRAIN		= "Training Costs";
 ACCLOC_TAXI			= "Taxi Fares";
 ACCLOC_OTHER		= "Unknown";
+ACCLOC_GUILD		= "Guild Bank";
+ACCLOC_BARBER		= "Barber Shop";
 ACCLOC_REPAIR		= "Repair Costs";
 ACCLOC_AUC			= "Auction House";
 
@@ -36,12 +38,17 @@ ACCLOC_EXIT			= "Exit";
 ACCLOC_SESS			= "Session";
 ACCLOC_DAY			= "Day";
 ACCLOC_WEEK			= "Week";
+ACCLOC_MONTH			= "Month";
+ACCLOC_YEAR			= "Year";
 ACCLOC_TOTAL		= "Total";
 ACCLOC_CHARS		= "All Chars";
 
 -- Options
 ACCLOC_OPTS			= "Accountant Options";
+ACCLOC_SETTINGS		= "Settings";
 ACCLOC_MINIBUT		= "Show Minimap Button";
+ACCLOC_MONEYINFO	= "Show Money Display";
+ACCLOC_MONEYICONS	= "Use Coin Icons";
 ACCLOC_BUTPOS		= "Minimap Button Position";
 ACCLOC_STARTWEEK	= "Start of Week";
 ACCLOC_WD_SUN		= "Sunday";

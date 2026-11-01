@@ -1,7 +1,7 @@
 ﻿if (GetLocale() == "ruRU") then
 -- Header
 ACCLOC_TITLE		= "Accountant Classic";
-ACCLOC_TIP			= "Left-Click для открытия Accountant Classic.\nRight-Click для настрйоки Accountant Classic.";
+ACCLOC_TIP			= "|cffb8c3d0ЛКМ:|r |cffffd200открыть отчёт|r\n|cffb8c3d0ПКМ:|r |cffffd200открыть настройки|r";
 ACCLOC_TOT_IN		= "Всего Доходов";
 ACCLOC_TOT_OUT		= "Всего Расходов";
 ACCLOC_NET			= "Чистая прибыль / Убыток";
@@ -18,13 +18,15 @@ ACCLOC_UPDATED		= "Последнее обновление";
 
 -- Section Labels
 ACCLOC_LOOT			= "Добыча";
-ACCLOC_QUEST		= "Награда за Квесты";
+ACCLOC_QUEST		= "Награда за задания";
 ACCLOC_MERCH		= "Торговцы";
 ACCLOC_TRADE		= "Обмен";
 ACCLOC_MAIL			= "Почта";
 ACCLOC_TRAIN		= "Расходы на обучение";
 ACCLOC_TAXI			= "Такси";
 ACCLOC_OTHER		= "Неизвестный";
+ACCLOC_GUILD		= "Банк гильдии";
+ACCLOC_BARBER		= "Парикмахерская";
 ACCLOC_REPAIR		= "Затраты на ремонт";
 ACCLOC_AUC			= "Аукцион";
 
@@ -37,12 +39,17 @@ ACCLOC_EXIT			= "Закрыть";
 ACCLOC_SESS			= "Сессия";
 ACCLOC_DAY			= "День";
 ACCLOC_WEEK			= "Неделя";
+ACCLOC_MONTH			= "Месяц";
+ACCLOC_YEAR			= "Год";
 ACCLOC_TOTAL		= "Все";
 ACCLOC_CHARS		= "Все Персанажи";
 
 -- Options
-ACCLOC_OPTS			= "Настрйоки акаунта";
+ACCLOC_OPTS			= "Настройки Accountant";
+ACCLOC_SETTINGS		= "Настройки";
 ACCLOC_MINIBUT		= "Показывать на миникарте";
+ACCLOC_MONEYINFO	= "Показывать текущий баланс";
+ACCLOC_MONEYICONS	= "Иконки монет вместо текста";
 ACCLOC_BUTPOS		= "Позиция на миникарте";
 ACCLOC_STARTWEEK	= "Начало недели";
 ACCLOC_WD_SUN		= "Воскресенье";

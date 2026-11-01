@@ -7,5 +7,6 @@
 <Include file="LibAboutPanel\lib.xml"/>
 <!--@end-no-lib-strip@-->
 <Script file="LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+<Include file="LibDBIcon-1.0\lib.xml"/>
 
 </Ui>
