@@ -13,12 +13,12 @@
 ## Notes-zhTW: |cff00CC33追蹤每個角色的所有收入與支出狀況，並可顯示當日小計、當週小計、以及自有記錄起的總計，並可顯示所有角色的總金額。|r
 ## SavedVariables: Accountant_SaveData,Accountant_Options
 ## OptionalDeps: ElvUI
-## Version: |cffff00002.7.0|r
+## Version: |cffff00002.7.1|r
 ## Author: |cffa330c9DarhangeR|r
 ## X-License: MIT (addon); GPL-2.0-or-later (LibDBIcon-1.0)
 ## X-Website: https://github.com/darhanger/Accountant_Classic
 ## X-Category: Information
-## X-Date: 2026-11-01
+## X-Date: 2026-11-26
 ## X-Localizations: enUS, frFR, deDE, zhCN, zhTW, koKR, ruRU
 
 Libs\Libs.xml

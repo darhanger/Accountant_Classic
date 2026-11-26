@@ -15,6 +15,10 @@ local Accountant_PendingLoot = 0;
 local Accountant_PendingLootTime = 0;
 local Accountant_LastMoneyChange = 0;
 local Accountant_LastMoneyDiff = 0;
+-- A close event may precede its balance update. Keep its category briefly without leaving the mode active.
+local pending_closed_mode = "";
+local pending_closed_time = 0;
+local closed_mode_grace_seconds = 2;
 local Accountant_RepairAllItems_old;
 local Accountant_CursorHasItem_old;
 
@@ -319,6 +323,11 @@ function Accountant_Slash(msg)
 	end
 end
 
+-- @brief Handles addon events, retaining recently closed money categories until the client reports their balance change.
+-- @param self The frame receiving the event.
+-- @param event The WoW event name.
+-- @param ... The event-specific arguments.
+-- @return Nothing.
 function Accountant_OnEvent(self, event, ...)
 	local arg1, arg2 = ...;
 	local oldmode = Accountant_Mode;
@@ -346,11 +355,19 @@ function Accountant_OnEvent(self, event, ...)
 	elseif event == "TAXIMAP_OPENED" then
 		Accountant_Mode = "TAXI";
 	elseif event == "TAXIMAP_CLOSED" then
-		if Accountant_Mode == "TAXI" then Accountant_Mode = ""; end
+		if Accountant_Mode == "TAXI" then
+			pending_closed_mode = Accountant_Mode;
+			pending_closed_time = GetTime();
+			Accountant_Mode = "";
+		end
 	elseif event == "LOOT_OPENED" then
 		Accountant_Mode = "LOOT";
 	elseif event == "LOOT_CLOSED" then
-		if Accountant_Mode == "LOOT" then Accountant_Mode = ""; end
+		if Accountant_Mode == "LOOT" then
+			pending_closed_mode = Accountant_Mode;
+			pending_closed_time = GetTime();
+			Accountant_Mode = "";
+		end
 	elseif event == "TRADE_SHOW" then
 		Accountant_Mode = "TRADE";
 	elseif event == "TRADE_CLOSED" then
@@ -358,7 +375,11 @@ function Accountant_OnEvent(self, event, ...)
 	elseif event == "QUEST_COMPLETE" then
 		Accountant_Mode = "QUEST";
 	elseif event == "QUEST_FINISHED" then
-		if Accountant_Mode == "QUEST" then Accountant_Mode = ""; end
+		if Accountant_Mode == "QUEST" then
+			pending_closed_mode = Accountant_Mode;
+			pending_closed_time = GetTime();
+			Accountant_Mode = "";
+		end
 	elseif event == "MAIL_SHOW" then
 		Accountant_Mode = "MAIL";
 	elseif event == "MAIL_CLOSED" then
@@ -383,13 +404,20 @@ function Accountant_OnEvent(self, event, ...)
 		if not Accountant_GotName then return; end
 		local currentMoney = GetMoney();
 		local oldMode = Accountant_Mode;
-		local lootOverride = Accountant_PendingLoot > 0 and currentMoney - Accountant_LastMoney == Accountant_PendingLoot and GetTime() - Accountant_PendingLootTime <= 1;
+		local money_diff = currentMoney - Accountant_LastMoney;
+		local lootOverride = Accountant_PendingLoot > 0 and money_diff == Accountant_PendingLoot and GetTime() - Accountant_PendingLootTime <= 1;
+		local closed_mode_override = false;
 		if lootOverride then
 			Accountant_Mode = "LOOT";
+		elseif Accountant_Mode == "" and pending_closed_mode ~= "" and GetTime() - pending_closed_time <= closed_mode_grace_seconds
+			and ((pending_closed_mode == "TAXI" and money_diff < 0) or (pending_closed_mode ~= "TAXI" and money_diff > 0)) then
+			Accountant_Mode = pending_closed_mode;
+			closed_mode_override = true;
 		end
 		Accountant_PendingLoot = 0;
 		Accountant_UpdateLog(currentMoney);
-		if lootOverride then Accountant_Mode = oldMode; end
+		if lootOverride or closed_mode_override then Accountant_Mode = oldMode; end
+		if money_diff ~= 0 then pending_closed_mode = ""; end
 	elseif event == "PLAYER_LOGOUT" then
 		if Accountant_GotName then
 			Accountant_SaveData[Accountant_Server][Accountant_Player].options.totalcash = Accountant_LastMoney;
@@ -398,9 +426,15 @@ function Accountant_OnEvent(self, event, ...)
 	elseif event == "CHAT_MSG_MONEY" then
 		Accountant_OnShareMoney(arg1);
 	end
+	if Accountant_Mode ~= oldmode and Accountant_Mode ~= "" and event ~= "PLAYER_MONEY" then
+		pending_closed_mode = "";
+	end
 	if Accountant_Verbose and Accountant_Mode ~= oldmode then ACC_Print("Accountant mode changed to '"..Accountant_Mode.."'"); end
 end
 
+-- @brief Classifies a money chat message as loot and reconciles it with the current or upcoming balance event.
+-- @param arg1 The localized money message text.
+-- @return Nothing.
 function Accountant_OnShareMoney(arg1)
 	if not Accountant_GotName or not arg1 then return; end
 	local gold = tonumber(string.match(arg1, Accountant_GoldAmountPattern)) or 0;
@@ -412,6 +446,7 @@ function Accountant_OnShareMoney(arg1)
 	local currentMoney = GetMoney();
 	if currentMoney - Accountant_LastMoney == money then
 		Accountant_PendingLoot = 0;
+		pending_closed_mode = "";
 		local oldMode = Accountant_Mode;
 		Accountant_Mode = "LOOT";
 		Accountant_UpdateLog(currentMoney);
